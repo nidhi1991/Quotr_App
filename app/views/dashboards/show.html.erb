@@ -1,0 +1,18 @@
+<div class="jumbotron">
+  <h3>Quotes</h3>
+  <hr />
+  <p class="lead">
+
+    <% if current_user.quotes.empty? %>
+      You have no been sent any quotes! <a href='<%= new_quote_path %>'>Get Quotes</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='<%= send_quote_quotes_path %>'>Send Quote Now!</a>
+    <% else %>
+      <a href='<%= new_quote_path %>'>Change Quotes</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href='<%= send_quote_quotes_path %>'>Send Quote Now!</a>
+      <hr />
+      <% current_user.quotes.each do |q| %>
+        <div class='well'><%= q.to_s %></div>
+      <% end %>
+
+    <% end %>
+  </p>
+</div>
+

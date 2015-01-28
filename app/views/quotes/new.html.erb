@@ -1,0 +1,72 @@
+<div class="jumbotron">
+  <form method='post' action='/quotes'>
+    <%= tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => form_authenticity_token) %>
+
+    <h3>Get Quotes Daily!</h3>
+    <hr />
+    <p class="lead">
+      Select categories!
+    </p>
+    <p>
+      <div class='row'>
+        <% @categories.each do |c| %>
+          <label class='col-md-3 category_label'>
+            <% if @user_categories.include?(c) %>
+              <input type='checkbox' class='category_checkbox' name='category[]' value='<%= c.id %>' checked/>
+            <% else %>
+              <input type='checkbox' class='category_checkbox' name='category[]' value='<%= c.id %>' />
+            <% end %>
+            <%= c.name %>
+          </label>
+        <% end %>
+      </div>
+    </p>
+    <p class='lead'>
+      When would you like this quote sent?
+    </p>
+    <p>
+      <div class='row'>
+        <% User::SEND_TIMES.each do |text, time| %>
+          <label class='col-md-3 category_label'>
+            <% if current_user.when_notified.include?(time[:time]) %>
+              <input type='checkbox' class='category_checkbox' name='when_send[]' value='<%= text %>' checked/>
+            <% else %>
+              <input type='checkbox' class='category_checkbox' name='when_send[]' value='<%= text %>' />
+            <% end %>
+            <%= text %> (<%= time[:readable] %>)
+          </label>
+        <% end %>
+      </div>
+    </p>
+
+    <p class='lead'>
+      How do you want quote?
+    </p>
+
+    <p>
+      <div class='row'>
+        <label class='col-md-3 category_label'>
+          <% if current_user.notify_email %>
+            <input type='checkbox' class='category_checkbox' name='email' checked/>
+          <% else %>
+            <input type='checkbox' class='category_checkbox' name='email'/>
+          <% end %>
+          Email
+        </label>
+        <label class='col-md-3 category_label'>
+          <% if current_user.notify_text %>
+            <input type='checkbox' class='category_checkbox' name='text' checked/>
+          <% else %>
+            <input type='checkbox' class='category_checkbox' name='text'/>
+          <% end %>
+          Text
+        </label>
+      </div>
+    </p>
+
+    <p>
+      <hr />
+      <input type='submit' value='Get Quotes' class='btn btn-success btn-lg' />
+    </p>
+  </form>
+</div>
